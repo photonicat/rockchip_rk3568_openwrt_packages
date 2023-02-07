@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=memtester
-PKG_VERSION:=4.5.1
+PKG_VERSION:=4.6.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)_$(PKG_VERSION).orig.tar.gz
 PKG_SOURCE_URL:=http://deb.debian.org/debian/pool/main/m/memtester/
-PKG_MD5SUM:=1bc22c01e987d6a67fac39dc5656a4d3
+PKG_MD5SUM:=f351462e0a995ac6f96f451ddc17bec5
 
 include $(INCLUDE_DIR)/package.mk
 
