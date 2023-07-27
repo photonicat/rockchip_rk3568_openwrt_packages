@@ -9,10 +9,10 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=qemu
-PKG_VERSION:=6.2.0
-PKG_RELEASE:=$(AUTORELEASE)
+PKG_VERSION:=7.2.1
+PKG_RELEASE:=1
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
-PKG_HASH:=68e15d8e45ac56326e0b9a4afa8b49a3dfe8aba3488221d098c84698bca65b45
+PKG_HASH:=8c85699acf9d7a43a5fe29a64cdd56370b0c2d1ad074baf7098a824d17aad73b
 PKG_SOURCE_URL:=http://download.qemu.org/
 PKG_LICENSE:=GPL-2.0-only
 PKG_LICENSE_FILES:=LICENSE tcg/LICENSE
@@ -67,6 +67,7 @@ define Package/qemu-ga/install
 endef
 
 PKG_CONFIG_DEPENDS += CONFIG_PACKAGE_qemu-ga
+PKG_CONFIG_DEPENDS += CONFIG_PACKAGE_libaio
 
 
 define Package/qemu-bridge-helper
@@ -92,7 +93,7 @@ define Package/qemu-img
  SUBMENU:=Virtualization
  TITLE:=QEMU Image utility
  URL:=http://www.qemu.org
- DEPENDS:=+glib2 $(QEMU_DEPS_IN_HOST)
+ DEPENDS:=+glib2 +libaio +KERNEL_IO_URING:liburing $(QEMU_DEPS_IN_HOST)
 endef
 
 define Package/qemu-img/install
@@ -107,7 +108,7 @@ define Package/qemu-nbd
  SUBMENU:=Virtualization
  TITLE:=QEMU Network Block Device Utility
  URL:=http://www.qemu.org
- DEPENDS:=+glib2 $(QEMU_DEPS_IN_HOST) +kmod-nbd
+ DEPENDS:=+glib2 +libaio +KERNEL_IO_URING:liburing $(QEMU_DEPS_IN_HOST) +kmod-nbd
 endef
 
 define Package/qemu-nbd/install
@@ -191,10 +192,10 @@ define qemu-target
     SUBMENU:=Virtualization
     TITLE:=QEMU target $(1)
     URL:=http://www.qemu.org
-    DEPENDS:= +glib2 +libpthread +zlib +libbpf $(QEMU_DEPS_IN_HOST) $(qemu-target-$(1)-deps) \
+    DEPENDS:= +glib2 +libpthread +zlib +libbpf +libaio +KERNEL_IO_URING:liburing $(QEMU_DEPS_IN_HOST) $(qemu-target-$(1)-deps) \
 	+QEMU_UI_VNC:qemu-keymaps \
+	+QEMU_UI_VNC:libpng \
 	+QEMU_UI_VNC_JPEG:libjpeg \
-	+QEMU_UI_VNC_PNG:libpng \
 	+QEMU_UI_VNC_SASL:libsasl2 \
 	+QEMU_UI_SPICE:libspice-server \
 	+QEMU_DEV_USB:libusb-1.0 \
@@ -247,11 +248,6 @@ config QEMU_UI_VNC_JPEG
 	default n
 	depends on QEMU_UI_VNC
 
-config QEMU_UI_VNC_PNG
-	bool "QEMU VNC png tight encoding support"
-	default n
-	depends on QEMU_UI_VNC
-
 config QEMU_UI_VNC_SASL
 	bool "QEMU VNC SASL auth support"
 	default n
@@ -277,7 +273,6 @@ endef
 PKG_CONFIG_DEPENDS += \
 	CONFIG_QEMU_UI_VNC \
 	CONFIG_QEMU_UI_VNC_JPEG \
-	CONFIG_QEMU_UI_VNC_PNG \
 	CONFIG_QEMU_UI_VNC_SASL \
 	CONFIG_QEMU_UI_SPICE \
 	CONFIG_QEMU_DEV_USB \
@@ -312,11 +307,8 @@ CONFIGURE_ARGS +=			\
 	--enable-vhost-crypto		\
 	--enable-vhost-kernel		\
 	--enable-vhost-net		\
-	--enable-vhost-scsi		\
 	--enable-vhost-user		\
-	--enable-vhost-user-fs		\
 	--enable-vhost-user-blk-server	\
-	--enable-vhost-vsock		\
 	--enable-vhost-vdpa		\
 
 # Image formats support
@@ -336,7 +328,6 @@ CONFIGURE_ARGS +=			\
 	--disable-bsd-user		\
 	--disable-linux-user		\
 	--enable-system			\
-	--enable-slirp=system		\
 
 # accel
 CONFIGURE_ARGS +=			\
@@ -357,7 +348,6 @@ CONFIGURE_ARGS +=			\
 	--disable-virglrenderer		\
 	--$(if $(CONFIG_QEMU_UI_VNC),enable,disable)-vnc			\
 	--$(if $(CONFIG_QEMU_UI_VNC_JPEG),enable,disable)-vnc-jpeg		\
-	--$(if $(CONFIG_QEMU_UI_VNC_PNG),enable,disable)-vnc-png		\
 	--$(if $(CONFIG_QEMU_UI_VNC_SASL),enable,disable)-vnc-sasl		\
 	--disable-vte			\
 	--enable-curses			\
@@ -406,9 +396,8 @@ CONFIGURE_ARGS +=			\
 	--disable-libpmem		\
 	--disable-libssh		\
 	--$(if $(CONFIG_QEMU_DEV_USB),enable,disable)-libusb		\
-	--disable-libxml2		\
-	--disable-linux-aio		\
-	--disable-linux-io-uring	\
+	--$(if $(CONFIG_KERNEL_AIO),enable,disable)-linux-aio		\
+	--$(if $(CONFIG_KERNEL_IO_URING),enable,disable)-linux-io-uring	\
 	--disable-lzfse			\
 	--disable-lzo			\
 	--disable-modules		\
@@ -437,12 +426,12 @@ CONFIGURE_ARGS +=			\
 	--disable-werror		\
 	--disable-xen-pci-passthrough	\
 	--disable-xkbcommon		\
-	--disable-xfsctl		\
 	--disable-zstd			\
 	--disable-selinux		\
 	--disable-oss			\
 	--disable-alsa			\
 	--disable-pa			\
+	--disable-vduse-blk-export	\
 
 CONFIGURE_ARGS += --target-list='$(foreach target,$(qemu-target-list),$(if $(CONFIG_PACKAGE_qemu-$(target)),$(target)))'
 CONFIGURE_ARGS += $(if $(CONFIG_PACKAGE_qemu-ga),--enable-guest-agent)
