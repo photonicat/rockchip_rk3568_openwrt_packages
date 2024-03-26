@@ -103,7 +103,7 @@ CONFIGURE_ARGS += \
 	--without-lzma
 
 HOST_CONFIGURE_ARGS += \
-	--disable-shared \
+	--enable-shared \
 	--enable-static \
 	--with-pic \
 	--with-c14n \
