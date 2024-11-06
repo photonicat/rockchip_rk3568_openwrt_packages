@@ -10,12 +10,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=haproxy
-PKG_VERSION:=2.6.6
-PKG_RELEASE:=$(AUTORELEASE)
+PKG_VERSION:=2.8.5
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://www.haproxy.org/download/2.6/src
-PKG_HASH:=d0c80c90c04ae79598b58b9749d53787f00f7b515175e7d8203f2796e6a6594d
+PKG_SOURCE_URL:=https://www.haproxy.org/download/2.8/src
+PKG_HASH:=3f5459c5a58e0b343a32eaef7ed5bed9d3fc29d8aa9e14b36c92c969fc2a60d9
 
 PKG_MAINTAINER:=Thomas Heil <heil@terminal-consulting.de>, \
 		Christian Lachner <gladiac@gmail.com>
@@ -29,31 +29,25 @@ define Package/haproxy/Default
   SUBMENU:=Web Servers/Proxies
   SECTION:=net
   CATEGORY:=Network
-  TITLE:=The Reliable, High Performance TCP/HTTP Load Balancer
+  TITLE:=TCP/HTTP Load Balancer
   URL:=https://www.haproxy.org/
 endef
 
-define Build/Prepare
-	$(call Build/Prepare/Default)
-endef
-
-define Package/haproxy/Default/conffiles
+define Package/haproxy/conffiles
 /etc/haproxy.cfg
 endef
+
+Package/haproxy-nossl/conffiles = $(Package/haproxy/conffiles)
 
 define Package/haproxy/Default/description
  Open source Reliable, High Performance TCP/HTTP Load Balancer.
 endef
 
 define Package/haproxy
+  $(call Package/haproxy/Default)
+  TITLE+=with SSL support
   DEPENDS+= +libpcre +libltdl +zlib +libpthread +liblua5.3 +libopenssl +libncurses +libreadline +libatomic
-  TITLE+= (with SSL support)
   VARIANT:=ssl
-$(call Package/haproxy/Default)
-endef
-
-define Package/haproxy/conffiles
-$(call Package/haproxy/Default/conffiles)
 endef
 
 define Package/haproxy/description
@@ -62,19 +56,15 @@ $(call Package/haproxy/Default/description)
 endef
 
 define Package/haproxy-nossl
-  TITLE+= (without SSL support)
+  $(call Package/haproxy/Default)
+  TITLE+=without SSL support
   VARIANT:=nossl
   DEPENDS+= +libpcre +libltdl +zlib +libpthread +liblua5.3 +libatomic
-  TITLE+= (without SSL support)
-$(call Package/haproxy/Default)
-endef
-
-define Package/haproxy-nossl/conffiles
-$(call Package/haproxy/Default/conffiles)
+  CONFLICTS:=haproxy
 endef
 
 define Package/haproxy-nossl/description
-$(call Package/haproxy/Default/description)
+  $(call Package/haproxy/Default/description)
  This package is built without SSL support.
 endef
 
@@ -137,14 +127,13 @@ endef
 Package/haproxy-nossl/install = $(Package/haproxy/install)
 
 define Package/halog
-	MENU:=1
-	$(call Package/haproxy)
-	TITLE+= halog
-	DEPENDS:=haproxy
+  $(call Package/haproxy)
+  TITLE+=halog
+  DEPENDS:=haproxy
 endef
 
 define Package/halog/description
-	HAProxy Log Analyzer
+  HAProxy Log Analyzer
 endef
 
 define Package/halog/install
