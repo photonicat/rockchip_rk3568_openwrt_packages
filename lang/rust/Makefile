@@ -75,7 +75,7 @@ HOST_CONFIGURE_ARGS = \
 	--release-channel=stable \
 	--enable-cargo-native-static \
 	--bootstrap-cache-path=$(DL_DIR)/rustc \
-	--set=llvm.download-ci-llvm=true \
+	--set=llvm.download-ci-llvm=false \
 	$(TARGET_CONFIGURE_ARGS)
 
 define Host/Uninstall
@@ -90,6 +90,7 @@ define Host/Compile
 	TARGET_CFLAGS="$(TARGET_CFLAGS)" \
 	$(PYTHON) $(HOST_BUILD_DIR)/x.py \
 		--build-dir $(HOST_BUILD_DIR)/build \
+		--ci false \
 		--config $(HOST_BUILD_DIR)/config.toml \
 		dist build-manifest cargo llvm-tools rustc rust-std rust-src
 endef
