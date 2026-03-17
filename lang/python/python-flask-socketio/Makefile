@@ -8,13 +8,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=python-flask-socketio
-PKG_VERSION:=5.16.1
+PKG_VERSION:=5.5.1
 PKG_RELEASE:=1
 
 PYPI_NAME:=Flask-SocketIO
-PKG_HASH:=f863f98eacce81ceea2e742f6388e10ca3cdd0764be21d30d5196470edf5ea89
+PYPI_SOURCE_NAME:=flask_socketio
+PKG_HASH:=d946c944a1074ccad8e99485a6f5c79bc5789e3ea4df0bb9c864939586c51ec4
 
-PKG_MAINTAINER:=Jan Pavlinec <jan.pavlinec1@gmail.com>
+PKG_MAINTAINER:=Jan Pavlinec <jan.pavlinec1@gmail.com>, Alexandru Ardelean <ardeleanalex@gmail.com>
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
