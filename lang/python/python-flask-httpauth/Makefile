@@ -12,6 +12,7 @@ PKG_VERSION:=4.8.0
 PKG_RELEASE:=1
 
 PYPI_NAME:=Flask-HTTPAuth
+PYTHON3_PKG_WHEEL_NAME:=flask_httpauth
 PKG_HASH:=66568a05bc73942c65f1e2201ae746295816dc009edd84b482c44c758d75097a
 
 PKG_MAINTAINER:=Jan Pavlinec <jan.pavlinec1@gmail.com>, Alexandru Ardelean <ardeleanalex@gmail.com>
