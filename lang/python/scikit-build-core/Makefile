@@ -17,9 +17,18 @@ PKG_HASH:=562e0bbc9de1a354c87825ccf732080268d6582a0200f648e8c4a2dcb1e3736d
 PKG_LICENSE:=Apache-2.0
 PKG_MAINTAINER:=Henry Schreiner <henryfs@princeton.edu>
 
+PKG_HOST_ONLY:=1
+HOST_BUILD_DEPENDS:= \
+        python3/host \
+        python-build/host \
+        python-setuptools/host \
+	python-hatchling/host
+
 include ../pypi.mk
 include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/host-build.mk
 include ../python3-package.mk
+include ../python3-host-build.mk
 
 define Package/python3-scikit-build-core
   SECTION:=lang-python
@@ -27,7 +36,8 @@ define Package/python3-scikit-build-core
   SUBMENU:=Python
   TITLE:=python3-scikit-build-core
   URL:=https://pypi.org/project/scikit-build-core
-  DEPENDS:=+python3 +python3-hatchling
+  DEPENDS:=+python3
+  BUILDONLY:=1
 endef
 
 define Package/python3-scikit-build-core/description

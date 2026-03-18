@@ -17,9 +17,18 @@ PKG_HASH:=432f01aeb68e361a3a7fc7575c2c7f497595bf640f747acd909ff238dd766e06
 PKG_LICENSE:=BSD-3-Clause
 PKG_MAINTAINER:=Wenzel Jakob <wenzel.jakob@epfl.ch>
 
+PKG_HOST_ONLY:=1
+HOST_BUILD_DEPENDS:= \
+        python3/host \
+        python-build/host \
+        python-setuptools/host \
+	scikit-build-core/host
+
 include ../pypi.mk
 include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/host-build.mk
 include ../python3-package.mk
+include ../python3-host-build.mk
 
 define Package/python3-pybind11
   SECTION:=lang-python
@@ -28,6 +37,7 @@ define Package/python3-pybind11
   TITLE:=python3-pybind11
   URL:=https://pypi.org/project/pybind11
   DEPENDS:=+python3 +python3-scikit-build-core
+  BUILDONLY:=1
 endef
 
 define Package/python3-pybind11/description
