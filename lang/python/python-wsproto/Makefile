@@ -27,7 +27,7 @@ define Package/python3-wsproto
   SUBMENU:=Python
   TITLE:=python3-wsproto
   URL:=https://pypi.org/project/wsproto
-  DEPENDS:=+python3
+  DEPENDS:=+python3 +python3-h11
 endef
 
 define Package/python3-wsproto/description
