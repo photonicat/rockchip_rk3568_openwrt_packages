@@ -35,7 +35,8 @@ define Package/python3-engineio
 	+python3-asyncio \
 	+python3-logging \
 	+python3-openssl \
-	+python3-urllib
+	+python3-urllib \
+	+python3-wsproto
 endef
 
 define Package/python3-engineio/description
