@@ -22,7 +22,8 @@ HOST_BUILD_DEPENDS:= \
         python3/host \
         python-build/host \
         python-setuptools/host \
-	python-hatchling/host
+	python-hatchling/host \
+	python-hatch-vcs/host
 
 include ../pypi.mk
 include $(INCLUDE_DIR)/package.mk
@@ -47,3 +48,4 @@ endef
 $(eval $(call Py3Package,python3-scikit-build-core))
 $(eval $(call BuildPackage,python3-scikit-build-core))
 $(eval $(call BuildPackage,python3-scikit-build-core-src))
+$(eval $(call HostBuild))

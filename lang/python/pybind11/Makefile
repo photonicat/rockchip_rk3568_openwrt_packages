@@ -51,3 +51,4 @@ endef
 $(eval $(call Py3Package,python3-pybind11))
 $(eval $(call BuildPackage,python3-pybind11))
 $(eval $(call BuildPackage,python3-pybind11-src))
+$(eval $(call HostBuild))

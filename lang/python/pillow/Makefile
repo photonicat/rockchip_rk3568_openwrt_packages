@@ -13,7 +13,7 @@ PKG_RELEASE:=1
 PYPI_NAME:=pillow
 PKG_HASH:=9ad8fa5937ab05218e2b6a4cff30295ad35afd2f83ac592e68c0d871bb0fdbc4
 
-PKG_BUILD_DEPENDS:=python-setuptools-scm/host
+PKG_BUILD_DEPENDS:=python-setuptools-scm/host pybind11/host
 
 PKG_MAINTAINER:=Alexandru Ardelean <ardeleanalex@gmail.com>
 PKG_LICENSE:=HPND
@@ -31,7 +31,7 @@ define Package/python3-pillow
   TITLE:=The friendly PIL fork
   URL:=https://python-pillow.org/
   DEPENDS:=+libfreetype +libjpeg +libtiff +zlib \
-	   +libwebp +python3 +python3-pybind11
+	   +libwebp +python3
 endef
 
 define Package/python3-pillow/description
@@ -43,7 +43,6 @@ PYTHON3_PKG_BUILD_CONFIG_SETTINGS += \
 	--build-option=--enable-zlib \
 	--build-option=--enable-jpeg \
 	--build-option=--enable-webp \
-	--build-option=--enable-webpmux \
 	--build-option=--enable-tiff \
 	--build-option=--enable-freetype \
 	--build-option=--disable-lcms \
