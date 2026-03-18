@@ -1,0 +1,66 @@
+From: Alexandre Detiste <alexandre.detiste@gmail.com>
+Date: Fri, 21 Feb 2025 12:12:10 +0100
+Subject: remove use of python3-six
+
+Forwarded: https://github.com/FirefighterBlu3/python-pam/pull/47
+---
+ src/pam/__internals.py | 10 ++++------
+ src/pam/pam.py         |  3 +--
+ 2 files changed, 5 insertions(+), 8 deletions(-)
+
+diff --git a/src/pam/__internals.py b/src/pam/__internals.py
+index 99a0397..ba40457 100644
+--- a/src/pam/__internals.py
++++ b/src/pam/__internals.py
+@@ -1,5 +1,4 @@
+ import os
+-import six
+ import sys
+ from ctypes import cdll
+ from ctypes import CFUNCTYPE
+@@ -296,11 +295,11 @@ class PamAuthenticator:
+ 
+             return my_conv(n_messages, messages, p_response, self.libc, msg_list, password, encoding)
+ 
+-        if isinstance(username, six.text_type):
++        if isinstance(username, str):
+             username = username.encode(encoding)
+-        if isinstance(password, six.text_type):
++        if isinstance(password, str):
+             password = password.encode(encoding)
+-        if isinstance(service, six.text_type):
++        if isinstance(service, str):
+             service = service.encode(encoding)
+ 
+         if b'\x00' in username or b'\x00' in password or b'\x00' in service:
+@@ -482,8 +481,7 @@ class PamAuthenticator:
+             return PAM_SYSTEM_ERR
+ 
+         #  can't happen unless someone is using internals directly
+-        if sys.version_info >= (3, ):  # pragma: no branch
+-            if isinstance(key, six.text_type):  # pragma: no branch
++        if isinstance(key, str):  # pragma: no branch
+                 key = key.encode(encoding)
+ 
+         value = self.pam_getenv(self.handle, key)
+diff --git a/src/pam/pam.py b/src/pam/pam.py
+index f16bf0c..7204129 100644
+--- a/src/pam/pam.py
++++ b/src/pam/pam.py
+@@ -30,7 +30,6 @@ a user against the Pluggable Authentication Modules (PAM) on the system.
+ Implemented using ctypes, so no compilation is necessary.
+ '''
+ 
+-import six
+ import __internals
+ 
+ if __name__ == "__main__":  # pragma: no cover
+@@ -43,7 +42,7 @@ if __name__ == "__main__":  # pragma: no cover
+             readline.redisplay()
+ 
+         readline.set_pre_input_hook(hook)
+-        result = six.moves.input(prompt)  # nosec (bandit; python2)
++        result = input(prompt)  # nosec (bandit; python2)
+ 
+         readline.set_pre_input_hook()
+ 
