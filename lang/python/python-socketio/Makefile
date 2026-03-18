@@ -12,6 +12,7 @@ PKG_VERSION:=5.16.1
 PKG_RELEASE:=1
 
 PYPI_NAME:=python-socketio
+PYPI_SOURCE_NAME:=python_socketio
 PKG_HASH:=f863f98eacce81ceea2e742f6388e10ca3cdd0764be21d30d5196470edf5ea89
 
 PKG_MAINTAINER:=Jan Pavlinec <jan.pavlinec1@gmail.com>, Alexandru Ardelean <ardeleanalex@gmail.com>
