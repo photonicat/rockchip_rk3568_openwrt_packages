@@ -10,7 +10,7 @@ PKG_NAME:=pillow
 PKG_VERSION:=12.1.1
 PKG_RELEASE:=1
 
-PYPI_NAME:=Pillow
+PYPI_NAME:=pillow
 PKG_HASH:=9ad8fa5937ab05218e2b6a4cff30295ad35afd2f83ac592e68c0d871bb0fdbc4
 
 PKG_BUILD_DEPENDS:=python-setuptools-scm/host
@@ -31,7 +31,7 @@ define Package/python3-pillow
   TITLE:=The friendly PIL fork
   URL:=https://python-pillow.org/
   DEPENDS:=+libfreetype +libjpeg +libtiff +zlib \
-	   +libwebp +python3
+	   +libwebp +python3 +python3-pybind11
 endef
 
 define Package/python3-pillow/description
