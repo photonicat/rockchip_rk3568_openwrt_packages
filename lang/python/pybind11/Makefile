@@ -27,7 +27,7 @@ define Package/python3-pybind11
   SUBMENU:=Python
   TITLE:=python3-pybind11
   URL:=https://pypi.org/project/pybind11
-  DEPENDS:=+python3
+  DEPENDS:=+python3 +python3-scikit-build-core
 endef
 
 define Package/python3-pybind11/description
