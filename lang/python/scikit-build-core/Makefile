@@ -11,7 +11,7 @@ PKG_NAME:=scikit-build-core
 PKG_VERSION:=0.12.2
 PKG_RELEASE:=1
 
-PYPI_NAME:=scikit-build-core
+PYPI_NAME:=scikit_build_core
 PKG_HASH:=562e0bbc9de1a354c87825ccf732080268d6582a0200f648e8c4a2dcb1e3736d
 
 PKG_LICENSE:=Apache-2.0
@@ -27,7 +27,7 @@ define Package/python3-scikit-build-core
   SUBMENU:=Python
   TITLE:=python3-scikit-build-core
   URL:=https://pypi.org/project/scikit-build-core
-  DEPENDS:=+python3
+  DEPENDS:=+python3 +python3-hatchling
 endef
 
 define Package/python3-scikit-build-core/description
