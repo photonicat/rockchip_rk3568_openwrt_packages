@@ -28,7 +28,7 @@ define Package/python3-pam
   SUBMENU:=Python
   TITLE:=python3-pam
   URL:=https://pypi.org/project/pam
-  DEPENDS:=+python3
+  DEPENDS:=+python3 +python3-six
 endef
 
 define Package/python3-pam/description
