@@ -9,7 +9,7 @@ Subject: [PATCH] Update xz2 and use it static
 
 --- a/src/bootstrap/Cargo.toml
 +++ b/src/bootstrap/Cargo.toml
-@@ -54,7 +54,7 @@ tar = { version = "0.4.44", default-features = false }
+@@ -54,7 +54,7 @@ tar = { version = "0.4.44", default-feat
  termcolor = "1.4"
  toml = "0.5"
  walkdir = "2.4"

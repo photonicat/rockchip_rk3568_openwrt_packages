@@ -5,20 +5,21 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rust
-PKG_VERSION:=1.93.0
+PKG_VERSION:=1.94.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=rustc-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist/
-PKG_HASH:=e30d898272c587a22f77679f03c5e8192b5645c7c9ccc3407ad1106761507cea
+PKG_HASH:=0b53ae34f5c0c3612cfe1de139f9167a018cd5737bc2205664fd69ba9b25f600
 HOST_BUILD_DIR:=$(BUILD_DIR)/host/rustc-$(PKG_VERSION)-src
 
 PKG_MAINTAINER:=Luca Barbato <lu_zero@luminem.org>
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
+PKG_CPE_ID:=cpe:/a:rust-lang:rust
 
 PKG_HOST_ONLY:=1
-PKG_USE_MIPS16:=0
+PKG_BUILD_FLAGS:=no-mips16
 
 include $(INCLUDE_DIR)/host-build.mk
 include $(INCLUDE_DIR)/package.mk
@@ -75,7 +76,7 @@ HOST_CONFIGURE_ARGS = \
 	--release-channel=stable \
 	--enable-cargo-native-static \
 	--bootstrap-cache-path=$(DL_DIR)/rustc \
-	--set=llvm.download-ci-llvm=true \
+	--set=llvm.download-ci-llvm=false \
 	$(TARGET_CONFIGURE_ARGS)
 
 define Host/Uninstall
@@ -84,26 +85,12 @@ define Host/Uninstall
 		$(BASH) $(RUST_UNINSTALL) || echo No Uninstall
 endef
 
-define Host/Patch
-	$(if $(HOST_QUILT),rm -rf $(HOST_BUILD_DIR)/patches; mkdir -p $(HOST_BUILD_DIR)/patches)
-	$(if $(HOST_QUILT),$(call PatchDir/Quilt,$(HOST_BUILD_DIR),$(HOST_PATCH_DIR),))
-	$(if $(HOST_QUILT),touch $(HOST_BUILD_DIR)/.quilt_used)
-	$(if $(HOST_QUILT),,$(if $(wildcard $(HOST_PATCH_DIR)/*.patch), \
-		$(foreach p,$(sort $(wildcard $(HOST_PATCH_DIR)/*.patch)), \
-			echo "Applying patch $(notdir $p)" ; \
-			$(PATCH) -f -p1 -d $(HOST_BUILD_DIR) < $p || \
-			{ echo "Patch failed! Please fix: $(notdir $p)!" ; exit 1 ; } ; \
-		) \
-	))
-endef
-
 define Host/Compile
 	$(RUST_SCCACHE_VARS) \
 	CARGO_HOME=$(CARGO_HOME) \
 	TARGET_CFLAGS="$(TARGET_CFLAGS)" \
 	$(PYTHON) $(HOST_BUILD_DIR)/x.py \
 		--build-dir $(HOST_BUILD_DIR)/build \
-		--ci false \
 		dist build-manifest rustc rust-std cargo llvm-tools rust-src
 endef
 
