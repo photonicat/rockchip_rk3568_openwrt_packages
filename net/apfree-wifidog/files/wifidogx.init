@@ -57,6 +57,7 @@ prepare_wifidog_conf() {
 	echo "JsFilter $js_filter" >> ${CONFIGFILE}
 	echo "WiredPassed $wired_passed" >> ${CONFIGFILE}
 	echo "BypassAppleCNA $apple_cna" >> ${CONFIGFILE}
+	echo "GatewayHttpsPort 8843" >> ${CONFIGFILE}
 }
 
 init_config() {
