@@ -5,19 +5,19 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=uugamebooster
-PKG_VERSION:=7.9.14
-PKG_RELEASE:=2
+PKG_VERSION:=12.1.4
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(ARCH).tar.gz
-PKG_SOURCE_URL:=https://uu.gdl.netease.com/uuplugin/openwrt-$(ARCH)/v$(PKG_VERSION)/uu.tar.gz?
+PKG_SOURCE_URL:=https://uurouter.gdl.netease.com/uuplugin/openwrt-$(ARCH)/v$(PKG_VERSION)/uu.tar.gz?
 ifeq ($(ARCH),aarch64)
-  PKG_HASH:=95ea5d99a6ad8d22c3650660d04d603508509972ec9098d680c82e7d51ff024e
+  PKG_HASH:=f140dc99af5a67367e63c811ba5b555c748dea32c3b11c6b5bde6afc25ac960c
 else ifeq ($(ARCH),arm)
-  PKG_HASH:=2e624deea128a298fce71f243d92092dad23451de7f547ad82008b9dd989bca5
+  PKG_HASH:=d531ff8ccb8b14abbac2d46d8cf1697114c981b059b9fb88adc19322be1ec2af
 else ifeq ($(ARCH),mipsel)
-  PKG_HASH:=31c08d893f46aaeddef41b37cdf10f935d5a45a136c6401fb71166d47cd8db12
+  PKG_HASH:=c9003945872a106fd46207afb130a6741ee832bdc3273e2257f35a092cfd966a
 else ifeq ($(ARCH),x86_64)
-  PKG_HASH:=6025af23e771540e31f86144aebb1420d56e315e29cb3157ac1dc0da428fcf63
+  PKG_HASH:=1dd419ac166b124f8d83e4075a65b6547ba589f976894065ce551a66313a6e84
 endif
 
 PKG_LICENSE:=Proprietary
@@ -51,13 +51,14 @@ endef
 define Package/uugamebooster/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/uuplugin $(1)/usr/bin/uugamebooster
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/xtables-nft-multi $(1)/usr/bin/xtables-nft-multi
 
 	$(INSTALL_DIR) $(1)/usr/share/uugamebooster
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/uu.conf $(1)/usr/share/uugamebooster/uu.conf
 
 	$(INSTALL_DIR) $(1)/etc/config $(1)/etc/init.d
-	$(INSTALL_CONF) ./files/uugamebooster.config $(1)/etc/config/uugamebooster
-	$(INSTALL_BIN) ./files/uugamebooster.init $(1)/etc/init.d/uugamebooster
+	$(INSTALL_CONF) $(CURDIR)/files/uugamebooster.config $(1)/etc/config/uugamebooster
+	$(INSTALL_BIN) $(CURDIR)/files/uugamebooster.init $(1)/etc/init.d/uugamebooster
 endef
 
 $(eval $(call BuildPackage,uugamebooster))
