@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=unbound
-PKG_VERSION:=1.18.0
-PKG_RELEASE:=$(AUTORELEASE)
+PKG_VERSION:=1.25.1
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://nlnetlabs.nl/downloads/unbound
-PKG_HASH:=3da95490a85cff6420f26fae0b84a49f5112df1bf1b7fc34f8724f02082cb712
+PKG_HASH:=0fe8b6277b0959cfd17562debac0aa5f71e0b02dc4ffa9c60271c583edab586f
 
 PKG_MAINTAINER:=Eric Luehrsen <ericluehrsen@gmail.com>
 PKG_LICENSE:=BSD-3-Clause
@@ -157,6 +157,8 @@ define Package/libunbound/config
 		default n
 	endif
 endef
+
+CONFIGURE_VARS += UNAME=Linux
 
 CONFIGURE_ARGS += \
 	--disable-dsa \

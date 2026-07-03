@@ -1,23 +1,23 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=syncthing
-PKG_VERSION:=1.24.0
+PKG_VERSION:=2.1.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=syncthing-source-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://github.com/syncthing/syncthing/releases/download/v$(PKG_VERSION)
-PKG_HASH:=4a9459667f9b70a7d1e7d572c7c9d02431ef8f055679eef368300ce1a826608f
+PKG_HASH:=9fe7ed66682e3662593a68571e8f13c45158e0997dd0aca28f07ed883a6e0a27
 
 PKG_BUILD_DIR=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)/$(PKG_NAME)
 
-PKG_MAINTAINER:=Paul Spooren <mail@aparcar.org>
+PKG_MAINTAINER:=Van Waholtz <brvphoenix@gmail.com>, George Sapkin <george@sapk.in>
 PKG_LICENSE:=MPL-2.0
 PKG_LICENSE_FILES:=LICENSE
 PKG_CPE_ID:=cpe:/a:syncthing:syncthing
 
 PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
-PKG_USE_MIPS16:=0
+PKG_BUILD_FLAGS:=no-mips16
 
 GO_PKG:=github.com/syncthing/syncthing
 GO_PKG_BUILD_PKG:=\
@@ -42,12 +42,12 @@ define Package/syncthing/Default
   DEPENDS:=$(GO_ARCH_DEPENDS)
   SECTION:=utils
   CATEGORY:=Utilities
+  USERID:=syncthing=499:syncthing=499
 endef
 
 define Package/syncthing
   $(call Package/syncthing/Default)
   TITLE:=Continuous file synchronization program
-  USERID:=syncthing=499:syncthing=499
 endef
 
 define Package/stdiscosrv
@@ -83,11 +83,17 @@ define Package/syncthing/description
 endef
 
 define Package/stdiscosrv/description
-  Relay server for syncthing
+  Syncthing relies on a discovery server to find peers on the internet.
+  Anyone can run a discovery server and point Syncthing installations to
+  it. The Syncthing project also maintains a global cluster for public
+  use.
 endef
 
 define Package/strelaysrv/description
-  Relay server for syncthing
+  Syncthing relies on a network of community-contributed relay servers.
+  Anyone can run a relay server, and it will automatically join the relay
+  pool and be available to Syncthing users. The current list of relays can
+  be found at https://relays.syncthing.net/.
 endef
 
 define SyncthingInstall
@@ -103,12 +109,11 @@ define SyncthingInstall
 	$(INSTALL_BIN) $(GO_PKG_BUILD_BIN_DIR)/$(2) $(1)/usr/bin
 endef
 
-
 define Package/syncthing/install
 	$(call SyncthingInstall,$(1),syncthing)
 
 	$(INSTALL_DIR) $(1)/etc/sysctl.d/
-	$(INSTALL_BIN) $(CURDIR)/files/syncthing-sysctl.conf $(1)/etc/sysctl.d/90-syncthing-inotify.conf
+	$(INSTALL_CONF) $(CURDIR)/files/syncthing.sysctl $(1)/etc/sysctl.d/90-syncthing.conf
 endef
 
 define Package/stdiscosrv/install

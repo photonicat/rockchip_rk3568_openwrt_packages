@@ -12,7 +12,7 @@ PKG_RELEASE:=1
 PYPI_NAME:=Mako
 PKG_HASH:=48dbc20568c1d276a2698b36d968fa76161bf127194907ea6fc594fa81f943bc
 
-PKG_MAINTAINER:=Alexandru Ardelean <ardeleanalex@gmail.com>
+PKG_MAINTAINER:=Jeffery To <jeffery.to@gmail.com>
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 PKG_CPE_ID:=cpe:/a:sqlalchemy:mako

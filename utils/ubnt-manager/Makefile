@@ -4,7 +4,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ubnt-manager
 PKG_VERSION:=1
-PKG_RELEASE:=$(AUTORELEASE)
+PKG_RELEASE:=2
 
 PKG_MAINTAINER:=Nick Hainke <vincent@systemli.org>
 PKG_LICENSE:=GPL-2.0-only
@@ -16,7 +16,7 @@ define Package/ubnt-manager
   CATEGORY:=Utilities
   TITLE:=Managment app for Ubiquiti devices
   PKGARCH:=all
-  EXTRA_DEPENDS:=dropbear
+  DEPENDS:=dropbear
 endef
 
 define Package/ubnt-manager/description

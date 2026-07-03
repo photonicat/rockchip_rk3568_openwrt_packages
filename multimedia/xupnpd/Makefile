@@ -1,26 +1,17 @@
-#
-# Copyright (C) 2013-2017 OpenWrt.org
-#
-# This is free software, licensed under the GNU General Public License v2.
-# See /LICENSE for more information.
-#
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=xupnpd
-PKG_REV:=e4e542d9b6d0043d470fda283e2cd325bbb91950
-PKG_VERSION:=2018-11-20
 PKG_RELEASE:=2
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/clark15b/xupnpd/tar.gz/$(PKG_REV)?
-PKG_HASH:=9177b7d5615172fe64f1b6120e5239c0b818ba4bff1f26916fe39fb69eefee4f
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_REV)
-
-PKG_LICENSE:=GPLv2
-PKG_LICENSE_FILES:=LICENSE
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_URL:=https://github.com/clark15b/xupnpd
+PKG_SOURCE_DATE:=2021-04-08
+PKG_SOURCE_VERSION:=2bc1e741e0efe04cb3150430ff25410093618b4f
+PKG_MIRROR_HASH:=00ba72ed3d394220cc564319d29b79c20e482d904e81aa7563b17349e918f94f
 
 PKG_MAINTAINER:=Álvaro Fernández Rojas <noltari@gmail.com>
+PKG_LICENSE:=GPLv2
+PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -37,7 +28,7 @@ endef
 define Package/xupnpd
   SECTION:=multimedia
   CATEGORY:=Multimedia
-  DEPENDS:=+liblua +libopenssl
+  DEPENDS:= +USE_GLIBC:libcrypt-compat +liblua +libopenssl
   TITLE:=eXtensible UPnP agent
   URL:=http://xupnpd.org/
 endef
@@ -59,7 +50,7 @@ define Package/xupnpd/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/xupnpd $(1)/usr/bin
 	$(INSTALL_DIR) $(1)/etc/init.d
-#	$(INSTALL_BIN) ./files/xupnpd.init $(1)/etc/init.d/xupnpd
+	$(INSTALL_BIN) ./files/xupnpd.init $(1)/etc/init.d/xupnpd
 	$(INSTALL_DIR) $(1)/usr/share/xupnpd
 	$(CP) $(PKG_BUILD_DIR)/src/*.lua $(1)/usr/share/xupnpd
 	$(INSTALL_DIR) $(1)/usr/share/xupnpd/ui

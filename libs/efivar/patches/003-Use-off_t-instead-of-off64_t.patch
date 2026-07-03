@@ -21,7 +21,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +++ b/src/error.c
 @@ -191,7 +191,7 @@ dbglog_write(void *cookie, const char *b
  }
-
+ 
  static int
 -dbglog_seek(void *cookie UNUSED, off64_t *offset, int whence)
 +dbglog_seek(void *cookie UNUSED, off_t *offset, int whence)

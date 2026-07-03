@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mbusd
 PKG_VERSION:=0.5.0
-PKG_RELEASE:=$(AUTORELEASE)
+PKG_RELEASE:=4
 
 PKG_SOURCE_URL:=https://codeload.github.com/3cky/mbusd/tar.gz/v$(PKG_VERSION)?
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
@@ -37,6 +37,10 @@ define Package/mbusd/install
 	$(INSTALL_DATA) ./files/mbusd.conf $(1)/etc/config/mbusd
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/mbusd.init $(1)/etc/init.d/mbusd
+endef
+
+define Package/mbusd/conffiles
+/etc/config/mbusd
 endef
 
 $(eval $(call BuildPackage,mbusd))

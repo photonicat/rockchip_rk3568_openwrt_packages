@@ -8,21 +8,22 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=open-vm-tools
-PKG_VERSION:=12.0.0
-PKG_RELEASE:=$(AUTORELEASE)
+PKG_VERSION:=13.0.0
+PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-19345655.tar.gz
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-24696409.tar.gz
 PKG_SOURCE_URL:=https://github.com/vmware/open-vm-tools/releases/download/stable-$(PKG_VERSION)
-PKG_HASH:=ea370217a213802f91b01231e28298bbe54134822351fb5cc70255d80ba0e775
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)-19345655
+PKG_HASH:=ce855a7d9a0a6561e6009784eb2a34f6a1d98b2a883afce5290cd426f78e7a6d
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)-24696409
 
 PKG_LICENSE:=LGPL-2.1-or-later
 PKG_LICENSE_FILES:=LICENSE
+PKG_CPE_ID:=cpe:/a:vmware:open-vm-tools
 
 PKG_FIXUP:=autoreconf
 PKG_INSTALL:=1
 PKG_BUILD_PARALLEL:=1
-PKG_BUILD_DEPENDS:=glib2/host
+PKG_BUILD_DEPENDS:=glib2/host rpcsvc-proto/host
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
@@ -80,7 +81,8 @@ CONFIGURE_ARGS+= \
 	--without-gtk2 \
 	--without-gtk3 \
 	--without-xerces \
-	--enable-resolutionkms=no
+	--enable-resolutionkms=no \
+	--disable-glibc-check
 
 TARGET_LDFLAGS+=$(if $(ICONV_FULL),-liconv)
 
@@ -130,17 +132,18 @@ define Package/open-vm-tools/install
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/block/
 	$(INSTALL_BIN) ./files/vmware-scsi.hotplug $(1)/etc/hotplug.d/block/80-vmware-scsi
 
-	$(INSTALL_DIR) $(1)/usr/share/open-vm-tools/messages/de/
-	$(CP) $(PKG_INSTALL_DIR)/usr/share/open-vm-tools/messages/de/toolboxcmd.vmsg $(1)/usr/share/open-vm-tools/messages/de/
-	$(CP) $(PKG_INSTALL_DIR)/usr/share/open-vm-tools/messages/de/vmtoolsd.vmsg $(1)/usr/share/open-vm-tools/messages/de/
-	$(INSTALL_DIR) $(1)/usr/share/open-vm-tools/messages/ko/
-	$(CP) $(PKG_INSTALL_DIR)/usr/share/open-vm-tools/messages/ko/toolboxcmd.vmsg $(1)/usr/share/open-vm-tools/messages/ko/
-	$(CP) $(PKG_INSTALL_DIR)/usr/share/open-vm-tools/messages/ko/vmtoolsd.vmsg $(1)/usr/share/open-vm-tools/messages/ko/
-	$(INSTALL_DIR) $(1)/usr/share/open-vm-tools/messages/zh_CN/
-	$(CP) $(PKG_INSTALL_DIR)/usr/share/open-vm-tools/messages/zh_CN/toolboxcmd.vmsg $(1)/usr/share/open-vm-tools/messages/zh_CN/
+	$(INSTALL_DIR) $(1)/usr/share/open-vm-tools/messages/fr/
+	$(CP) $(PKG_INSTALL_DIR)/usr/share/open-vm-tools/messages/fr/toolboxcmd.vmsg $(1)/usr/share/open-vm-tools/messages/fr/
+	$(CP) $(PKG_INSTALL_DIR)/usr/share/open-vm-tools/messages/fr/vmtoolsd.vmsg $(1)/usr/share/open-vm-tools/messages/fr/
 	$(INSTALL_DIR) $(1)/usr/share/open-vm-tools/messages/ja/
 	$(CP) $(PKG_INSTALL_DIR)/usr/share/open-vm-tools/messages/ja/toolboxcmd.vmsg $(1)/usr/share/open-vm-tools/messages/ja/
 	$(CP) $(PKG_INSTALL_DIR)/usr/share/open-vm-tools/messages/ja/vmtoolsd.vmsg $(1)/usr/share/open-vm-tools/messages/ja/
+	$(INSTALL_DIR) $(1)/usr/share/open-vm-tools/messages/en/
+	$(CP) $(PKG_INSTALL_DIR)/usr/share/open-vm-tools/messages/en/toolboxcmd.vmsg $(1)/usr/share/open-vm-tools/messages/en/
+	$(CP) $(PKG_INSTALL_DIR)/usr/share/open-vm-tools/messages/en/vmtoolsd.vmsg $(1)/usr/share/open-vm-tools/messages/en/
+	$(INSTALL_DIR) $(1)/usr/share/open-vm-tools/messages/es/
+	$(CP) $(PKG_INSTALL_DIR)/usr/share/open-vm-tools/messages/es/toolboxcmd.vmsg $(1)/usr/share/open-vm-tools/messages/es/
+	$(CP) $(PKG_INSTALL_DIR)/usr/share/open-vm-tools/messages/es/vmtoolsd.vmsg $(1)/usr/share/open-vm-tools/messages/es/
 endef
 
 define Package/open-vm-tools-fuse/install

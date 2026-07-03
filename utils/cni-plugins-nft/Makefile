@@ -1,12 +1,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=cni-plugins-nft
-PKG_VERSION:=1.0.5
-PKG_RELEASE:=$(AUTORELEASE)
+PKG_VERSION:=1.0.12
+PKG_RELEASE:=2
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://github.com/greenpau/cni-plugins/archive/v$(PKG_VERSION)
-PKG_HASH:=c8cbdfe43c144cf0df834555698312e8fd3daf6f2c5ac35e7959b90b91b154ad
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_VERSION:=v$(PKG_VERSION)
+PKG_SOURCE_URL:=https://github.com/greenpau/cni-plugins
+PKG_MIRROR_HASH:=3bb778c8f48261eaaee8b14b9219f1730967ef16158b5b540d45da54ef580e53
 
 PKG_MAINTAINER:=Oskari Rauta <oskari.rauta@gmail.com>
 PKG_LICENSE:=Apache-2.0
@@ -14,7 +15,7 @@ PKG_LICENSE_FILES:=LICENSE
 
 PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
-PKG_USE_MIPS16:=0
+PKG_BUILD_FLAGS:=no-mips16
 
 GO_PKG:=github.com/greenpau/cni-plugins/
 GO_PKG_BUILD_PKG:=github.com/greenpau/cni-plugins/cmd/cni-nftables-portmap \
@@ -23,14 +24,12 @@ GO_PKG_BUILD_PKG:=github.com/greenpau/cni-plugins/cmd/cni-nftables-portmap \
 include $(INCLUDE_DIR)/package.mk
 include ../../lang/golang/golang-package.mk
 
-PKG_UNPACK:=$(HOST_TAR) -C "$(PKG_BUILD_DIR)" --strip-components=1 -xzf "$(DL_DIR)/$(PKG_SOURCE)"
-
 define Package/cni-plugins-nft
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=CNI Plugins compatible with nftables
   URL:=https://github.com/greenpau/cni-plugins/
-  DEPENDS:=$(GO_ARCH_DEPENDS)
+  DEPENDS:=$(GO_ARCH_DEPENDS) +nftables
 endef
 
 define Package/cni-plugins-nft/description
