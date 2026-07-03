@@ -24,7 +24,7 @@ HOST_BUILD_DEPENDS:= \
 	python-build/host \
 	python-installer/host \
 	python-setuptools/host \
-	python-wheel/host
+	python-wheel/host \
 	scikit-build-core/host
 
 include ../pypi.mk
