@@ -46,8 +46,9 @@ endif
 endif
 endif
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
-PKG_SOURCE_URL:=https://nodejs.org/dist/$(PKG_VERSION)
+PKG_REAL_VERSION:=v$(PKG_VERSION)
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_REAL_VERSION).tar.xz
+PKG_SOURCE_URL:=https://nodejs.org/dist/$(PKG_REAL_VERSION)
 
 PKG_MAINTAINER:=Hirokazu MORIKAWA <morikw2@gmail.com>
 PKG_LICENSE:=MIT
