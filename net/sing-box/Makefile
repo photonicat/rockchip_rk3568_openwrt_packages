@@ -48,7 +48,6 @@ endef
 define Package/sing-box-tiny
   $(Package/sing-box-default)
   TITLE+= (tiny)
-  PROVIDES:=sing-box
   VARIANT:=tiny
   CONFLICTS:=sing-box
 endef
